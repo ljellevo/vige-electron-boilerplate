@@ -1,6 +1,8 @@
+'use strict';
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
+require('electron-reload')(__dirname);
 
 function createWindow () {
   // Create the browser window.
@@ -18,6 +20,19 @@ function createWindow () {
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 }
+
+app.on('ready', () => {
+  const mainWindow = new BrowserWindow({
+    width: 1220,
+    height: 830,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js')
+    }
+  })
+
+  // and load the index.html of the app.
+  mainWindow.loadFile('./bin/index.html')
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
